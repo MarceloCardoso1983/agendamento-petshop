@@ -1,6 +1,34 @@
 const form = document.getElementById("form-agendamento");
 const lista = document.getElementById("lista");
 
+// carregar dados salvos
+let agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
+
+function renderizar() {
+  lista.innerHTML = "";
+
+  agendamentos.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${item.cliente} - ${item.pet} - ${item.data}`;
+
+    // botão excluir
+    const btn = document.createElement("button");
+    btn.textContent = "Excluir";
+    btn.onclick = () => {
+      agendamentos.splice(index, 1);
+      salvar();
+    };
+
+    li.appendChild(btn);
+    lista.appendChild(li);
+  });
+}
+
+function salvar() {
+  localStorage.setItem("agendamentos", JSON.stringify(agendamentos));
+  renderizar();
+}
+
 form.addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -8,10 +36,10 @@ form.addEventListener("submit", function(e) {
   const pet = document.getElementById("pet").value;
   const data = document.getElementById("data").value;
 
-  const item = document.createElement("li");
-  item.textContent = `${cliente} - ${pet} - ${data}`;
+  agendamentos.push({ cliente, pet, data });
 
-  lista.appendChild(item);
-
+  salvar();
   form.reset();
 });
+
+renderizar();
