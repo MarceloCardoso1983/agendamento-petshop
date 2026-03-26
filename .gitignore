@@ -1,0 +1,15 @@
+# Sistema
+.DS_Store
+
+# Logs
+*.log
+
+# Node (para o futuro)
+node_modules/
+
+# VS Code
+.vscode/
+
+# Arquivos temporários
+*.tmp
+*.swp
